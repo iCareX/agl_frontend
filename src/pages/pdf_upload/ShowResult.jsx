@@ -96,11 +96,11 @@ export default function ShowResult(props) {
                   return (
                     <ListItem key={index}>
                       <Flex gap={"sm"}>
-                        <ThemeIcon color={data[subItem] === undefined ? "red" : "teal"} size={16} radius="xl">
-                          {data[subItem] !== undefined ? (
-                            <IconCircleCheck style={{ width: rem(16), height: rem(16) }} />
-                          ) : (
+                        <ThemeIcon color={data[subItem] === undefined || data[subItem] === "<UNKNOWN>" ? "red" : "teal"} size={16} radius="xl">
+                          {data[subItem] === undefined || data[subItem] === "<UNKNOWN>" ? (
                             <IconCircleX style={{ width: rem(16), height: rem(16) }} />
+                          ) : (
+                            <IconCircleCheck style={{ width: rem(16), height: rem(16) }} />
                           )}
                         </ThemeIcon>
                         {handleLabel(subItem)}
