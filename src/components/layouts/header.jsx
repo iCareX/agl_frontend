@@ -76,7 +76,7 @@ export default function MainHeader() {
           </Box>
           <Flex align={"end"} gap={"xs"}>
             <Text fw={700} size="lg">
-              MyGen Studio
+              Agl Studio
             </Text>
             <Text fw={400} size="sm" mb={"3"}>
               by icarex
@@ -117,7 +117,7 @@ export default function MainHeader() {
         onClose={close}
         title={
           <Text fw={600} size="lg">
-            MyGen Studio
+            Agl Studio
           </Text>
         }
         size="350"
@@ -126,7 +126,7 @@ export default function MainHeader() {
           <Flex direction={"column"} align={"start"} gap={"md"} mt={"sm"}>
             {navList.map((item, index) => {
               return (
-                <>
+                <div key={index}>
                   <Text size="sm" fw={700} mb={-10}>
                     {item.type}
                   </Text>
@@ -152,7 +152,7 @@ export default function MainHeader() {
                       />
                     );
                   })}
-                </>
+                </div>
               );
             })}
           </Flex>

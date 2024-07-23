@@ -13,6 +13,10 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (location.pathname === "/" || location.pathname === "") navigate("/pdf_upload");
+  }, [navigate, location.pathname]);
+
   // useEffect(() => {
   //   if (userToken) {
   //     if (location.pathname === "/" || location.pathname === "") navigate("/fast_assessment");
