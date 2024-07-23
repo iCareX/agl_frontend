@@ -66,6 +66,8 @@ export default function ShowResult(props) {
   const [clicked, setClicked] = useState();
   const [hoverIndex, setHoverIndex] = useState(-1);
 
+  const calculateHeight = () => `calc(100vh - 580px)`;
+
   const handleScrollMove = (group) => {
     viewport.current?.scrollTo({ top: scrollRefs[group].current.offsetTop, behavior: "smooth" });
   };
@@ -111,7 +113,7 @@ export default function ShowResult(props) {
           );
         })}
       </SimpleGrid>
-      <ScrollArea h={380} mt={"sm"} viewportRef={viewport} pr={"sm"} scrollbarSize={8}>
+      <ScrollArea mt={"sm"} viewportRef={viewport} pr={"sm"} scrollbarSize={8} style={{ height: calculateHeight() }}>
         <div ref={scrollRefs.firstGroup}>{renderGroup(groups.firstGroup, "First Group", "teal")}</div>
         <div ref={scrollRefs.secondGroup}>{renderGroup(groups.secondGroup, "Second Group", "#228be6")}</div>
         <div ref={scrollRefs.thirdGroup}>{renderGroup(groups.thirdGroup, "Third Group", "orange")}</div>

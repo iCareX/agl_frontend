@@ -11,7 +11,7 @@ export default function MainSidebar(props) {
       type: "Agents",
       menu: [
         {
-          label: "PDF Upload",
+          label: "AGL AI",
           link: "pdf_upload",
         },
       ],

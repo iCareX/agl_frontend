@@ -291,8 +291,9 @@ export default function PDFUpload() {
                     </Dropzone.Idle>
 
                     <div>
-                      <Text size="xl">
-                        In this step, you can Upload <span className=" font-bold text-[24px] mr-1">Multiple</span>PDFs what you want scanning
+                      <Text size="xl" maw={700}>
+                        Clicca qui per caricare uno o più file pdf. Questa è una demo sperimentale, assicurati di caricare file PDF inerenti il perimetro di
+                        attività di AGL AI.
                       </Text>
                       <Text size="sm" c="dimmed" mt={7}>
                         Attach as many files as you like, each file should not exceed 5mb
