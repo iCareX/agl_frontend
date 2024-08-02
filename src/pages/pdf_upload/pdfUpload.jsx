@@ -12,12 +12,12 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { toast } from "react-toastify";
 import { formatFileSize } from "../../apis/simpleAPIs";
 import PdfViewer from "./pdfViewer";
-import { PDFUploadAPI } from "../../apis/pdf_uploadAPI";
+import { PDFAnalytics, PDFUploadAPI } from "../../apis/pdf_uploadAPI";
 import ShowResult from "./ShowResult";
 
 export default function PDFUpload() {
@@ -32,6 +32,7 @@ export default function PDFUpload() {
   const [files, setFiles] = useState(null);
 
   const [result, setResult] = useState();
+  const [intervalId, setInvetervalId] = useState();
 
   const handleFileUpload = async () => {
     setLoading(true);
@@ -45,18 +46,49 @@ export default function PDFUpload() {
 
     try {
       const response = await PDFUploadAPI(formData);
-      if (response?.data) {
-        setResult(response.data);
-      } else {
-        console.error("No data received in response");
+      let jobID = "";
+      if (response.data) {
+        jobID = response.data?.job_id;
+        pollForResults(jobID);
       }
-      setLoading(false);
     } catch (error) {
       console.error("Error uploading files:", error);
       setLoading(false);
     }
   };
 
+  const pollForResults = (jobId) => {
+    const interval = setInterval(async () => {
+      try {
+        const resultResponse = await PDFAnalytics(jobId);
+
+        console.log(resultResponse);
+        const resultData = resultResponse.data;
+
+        if (resultData.status === "pending") {
+          console.log("Job is still processing...");
+        } else if (resultData.status === "failed") {
+          console.log("Job failed.");
+          clearInterval(interval);
+          setLoading(false);
+          toast.error("Job failed.");
+        } else {
+          console.log("Job completed!");
+          setResult(resultData);
+          clearInterval(interval);
+          setLoading(false);
+          toast.success("Job Completed");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        clearInterval(interval);
+        setLoading(false);
+        toast.error("Network Error");
+      }
+    }, 5000);
+
+    setInvetervalId(interval);
+  };
   const handleMultiFilesDrop = (acceptedFiles) => {
     setOriginFiles(acceptedFiles);
   };
@@ -71,6 +103,14 @@ export default function PDFUpload() {
     setFiles(pdfFile);
     open();
   };
+
+  useEffect(() => {
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [intervalId]);
 
   return (
     <Box pos="relative" w={"100%"}>
