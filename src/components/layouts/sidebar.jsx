@@ -1,4 +1,4 @@
-import { Box, Flex, NavLink, Text, useMantineColorScheme } from "@mantine/core";
+import { Box, Flex, NavLink, Stack, Text, useMantineColorScheme } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -40,7 +40,7 @@ export default function MainSidebar(props) {
       <Flex direction={"column"} align={"start"} gap={"md"} mt={"sm"}>
         {navList.map((item, index) => {
           return (
-            <>
+            <Stack key={index} w={"100%"}>
               <Text size="sm" fw={700} mb={-10}>
                 {item.type}
               </Text>
@@ -63,7 +63,7 @@ export default function MainSidebar(props) {
                   />
                 );
               })}
-            </>
+            </Stack>
           );
         })}
         {/* {chat.map((item, index) => {

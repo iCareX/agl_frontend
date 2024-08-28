@@ -1,5 +1,4 @@
 import { ActionIcon, Box, Card, CopyButton, Flex, List, ListItem, Paper, rem, ScrollArea, SimpleGrid, Text, ThemeIcon, Tooltip } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { IconCheck, IconCircleCheck, IconCircleX, IconCopy } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 
@@ -10,10 +9,6 @@ export default function ShowResult(props) {
   const scrollRefs = {
     firstGroup: useRef(null),
     secondGroup: useRef(null),
-    thirdGroup: useRef(null),
-    fourthGroup: useRef(null),
-    lastGroup: useRef(null),
-    otherGroup: useRef(null),
   };
 
   const handleLabel = (str) => {
@@ -24,12 +19,82 @@ export default function ShowResult(props) {
   };
 
   const groups = {
-    firstGroup: ["immobile_sito_in", "individuazione_immobile", "identificazione_catastale", "tipologia_immobile"],
-    secondGroup: ["difformita", "problematiche", "vetusta_immobile", "occupazione_bene"],
-    thirdGroup: ["lavori_da_eseguire", "costi_sanatoria", "costi_istruttoria", "spese_varie", "sanatorie"],
-    fourthGroup: ["referente", "riferimento_portale"],
-    lastGroup: ["esecuzione_immobiliare_n"],
-    otherGroup: ["base_asta", "cauzione", "data_asta", "descrizione_immobile", "offerta_minima", "rilancio_offerta", "valore_immobiliare"],
+    firstGroup: [
+      "immobile_sito_in",
+      "esecuzione_immobiliare_n",
+      "individuazione_immobile",
+      "identificazione_catastale",
+      "descrizione_immobile",
+      "difformita",
+      "vetusta_immobile",
+      "occupazione_bene",
+      "data_asta",
+      "valore_immobiliare",
+      "base_asta",
+      "offerta_minima",
+      "rilancio_offerta",
+      "cauzione",
+      "tipologia_immobile",
+      "sanatorie_lavori_da_eseguire",
+      "costi_sanatoria",
+      "referente",
+      "piena_proprieta",
+      "spese_condominiali",
+      "descrizione_infissi",
+      "descrizione_pavimenti",
+      "descrizione_riscaldamento",
+      "descrizione_caldaia",
+      "descrizione_porta",
+      "videosorveglianza",
+      "servizi",
+      "esposizione",
+      "ascensore",
+      "pannelli_fotovoltaici",
+      "impianto_raffrescamento",
+      "impianto_idrico_sanitario",
+      "tende_da_sole",
+      "impianto_elettrico",
+      "finiture_esterne",
+      "piani",
+    ],
+    secondGroup: [
+      "immobile_sito_in_source",
+      "esecuzione_immobiliare_n_source",
+      "individuazione_immobile_source",
+      "identificazione_catastale_source",
+      "descrizione_immobile_source",
+      "difformita_source",
+      "vetusta_immobile_source",
+      "occupazione_bene_source",
+      "data_asta_source",
+      "valore_immobiliare_source",
+      "base_asta_source",
+      "offerta_minima_source",
+      "rilancio_offerta_source",
+      "cauzione_source",
+      "tipologia_immobile_source",
+      "sanatorie_lavori_da_eseguire_source",
+      "costi_sanatoria_source",
+      "referente_source",
+      "piena_proprieta_source",
+      "spese_condominiali_source",
+      "descrizione_infissi_source",
+      "descrizione_pavimenti_source",
+      "descrizione_riscaldamento_source",
+      "descrizione_caldaia_source",
+      "descrizione_porta_source",
+      "videosorveglianza_source",
+      "servizi_source",
+      "esposizione_source",
+      "ascensore_source",
+      "pannelli_fotovoltaici_source",
+      "impianto_raffrescamento_source",
+      "impianto_idrico_sanitario_source",
+      "tende_da_sole_source",
+      "impianto_elettrico_source",
+      "finiture_esterne_source",
+      "piani_source",
+    ],
   };
 
   const renderGroup = (group, groupName, color) => {
@@ -74,41 +139,34 @@ export default function ShowResult(props) {
 
   return (
     <>
-      <SimpleGrid cols={{ base: 1, sm: 3 }}>
+      <SimpleGrid cols={{ base: 1, sm: 2 }}>
         {Object.keys(groups).map((item, index) => {
           return (
             <Card
               withBorder
               shadow="sm"
               radius={"sm"}
-              p={"sm"}
               onClick={() => {
                 setSelected(item);
                 handleScrollMove(item);
                 setClicked(index);
               }}
+              p={0}
               onMouseOver={() => setHoverIndex(index)}
               onMouseLeave={() => setHoverIndex(-1)}
               style={{ borderColor: hoverIndex === index || clicked === index ? "#228be6" : "" }}
             >
-              <List spacing="xs" size="md" center fw={500}>
-                {groups[item].map((subItem, index) => {
-                  return (
-                    <ListItem key={index}>
-                      <Flex gap={"sm"}>
-                        <ThemeIcon color={data[subItem] === undefined || data[subItem] === "<UNKNOWN>" ? "red" : "teal"} size={16} radius="xl">
-                          {data[subItem] === undefined || data[subItem] === "<UNKNOWN>" ? (
-                            <IconCircleX style={{ width: rem(16), height: rem(16) }} />
-                          ) : (
-                            <IconCircleCheck style={{ width: rem(16), height: rem(16) }} />
-                          )}
-                        </ThemeIcon>
-                        {handleLabel(subItem)}
-                      </Flex>
-                    </ListItem>
-                  );
-                })}
-              </List>
+              <ScrollArea h={380} p={"sm"}>
+                <Flex gap={"sm"} wrap={"wrap"}>
+                  {groups[item].map((subItem, subIndex) => {
+                    return (
+                      <Text fw={500} color={data[subItem] === undefined || data[subItem] === "<UNKNOWN>" ? "red" : "green"}>
+                        {handleLabel(subItem)},
+                      </Text>
+                    );
+                  })}
+                </Flex>
+              </ScrollArea>
             </Card>
           );
         })}
@@ -116,10 +174,6 @@ export default function ShowResult(props) {
       <ScrollArea mt={"sm"} viewportRef={viewport} pr={"sm"} scrollbarSize={8} style={{ height: calculateHeight() }}>
         <div ref={scrollRefs.firstGroup}>{renderGroup(groups.firstGroup, "First Group", "teal")}</div>
         <div ref={scrollRefs.secondGroup}>{renderGroup(groups.secondGroup, "Second Group", "#228be6")}</div>
-        <div ref={scrollRefs.thirdGroup}>{renderGroup(groups.thirdGroup, "Third Group", "orange")}</div>
-        <div ref={scrollRefs.fourthGroup}>{renderGroup(groups.fourthGroup, "Fourth Group", "green")}</div>
-        <div ref={scrollRefs.lastGroup}>{renderGroup(groups.lastGroup, "Last Group", "grape")}</div>
-        <div ref={scrollRefs.otherGroup}>{renderGroup(groups.otherGroup, "Other Group", "red")}</div>
       </ScrollArea>
     </>
   );
