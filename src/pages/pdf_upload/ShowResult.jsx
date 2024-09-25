@@ -1,10 +1,39 @@
-import { ActionIcon, Box, Card, CopyButton, Flex, List, ListItem, Paper, rem, ScrollArea, SimpleGrid, Text, ThemeIcon, Tooltip } from "@mantine/core";
-import { IconCheck, IconCircleCheck, IconCircleX, IconCopy } from "@tabler/icons-react";
+import { ActionIcon, Box, Card, CopyButton, Flex, List, ListItem, Paper, rem, ScrollArea, SimpleGrid, Stack, Text, ThemeIcon, Tooltip } from "@mantine/core";
+import { IconBook2, IconBrandCucumber, IconCheck, IconCircleCheck, IconCircleX, IconCopy, IconListNumbers, IconMoodEmpty, IconNumber, IconPageBreak, IconReceiptOff, IconSortDescendingNumbers } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 
 export default function ShowResult(props) {
   const viewport = useRef(null);
   const { data } = props;
+//   const data = {
+//     "ascensore": {
+//         source_text: "This document outlines the functional requirements for the Minimum Viable Product (MVP) of Pilbox, a microlearning platform designed to empower chronic illness patients with credible, personalized education.",
+//         sources: [{ page_num: 0, source: '621246_PilboxMVPDetails.pdf' }],
+//         value: "Pilbox"
+//     },
+//     "data_asta": {
+//         source_text: "Data tracking (optional for MVP): Implement basic u.",
+//         sources: [
+//             { page_num: 1, source: "621246_PilboxMVPDetails.pdf" },
+//             { page_num: 1, source: "621246_PilboxMVPDetails.pdf" }
+//         ],
+//         value: "Pilbox"
+//     },
+//     "delegato_1": {
+//         source_text: "This document outlines the functional requirements for the Minimum Viable Product (MVP) of Pilbox, a microlearning platform designed to empower chronic illness patients with credible, personalized education.",
+//         sources: [{ page_num: 1, source: "621246_PilboxMVPDetails.pdf" }],
+//         value: "Pilbox"
+//     },
+//     "delegato_2": {
+//         source_text: "This document outlines the functional requirements for the Minimum Viable Product (MVP) of Pilbox, a microlearning platform designed to empower chronic illness patients with credible, personalized education.",
+//         sources: [{ page_num: 1, source: "621246_PilboxMVPDetails.pdf" }],
+//         value: "Pilbox"
+//     }
+// };
+
+
+
+  console.log("data==========", data)
 
   const scrollRefs = {
     firstGroup: useRef(null),
@@ -101,7 +130,7 @@ export default function ShowResult(props) {
     return (
       <Box>
         {group.map((item, index) => (
-          <div className="mt-3">
+          <div className="mt-3" key={index}>
             <Flex justify={"space-between"} align={"center"}>
               <Text color={color} fw={500}>
                 {handleLabel(item)}
@@ -137,9 +166,13 @@ export default function ShowResult(props) {
     viewport.current?.scrollTo({ top: scrollRefs[group].current.offsetTop, behavior: "smooth" });
   };
 
+  const handleShowMore = () => {
+
+  }
+
   return (
     <>
-      <SimpleGrid cols={{ base: 1, sm: 2 }}>
+      {/* <SimpleGrid cols={{ base: 1, sm: 2 }}>
         {Object.keys(groups).map((item, index) => {
           return (
             <Card
@@ -160,7 +193,7 @@ export default function ShowResult(props) {
                 <Flex gap={"sm"} wrap={"wrap"}>
                   {groups[item].map((subItem, subIndex) => {
                     return (
-                      <Text fw={500} color={data[subItem] === undefined || data[subItem] === "<UNKNOWN>" ? "red" : "green"}>
+                      <Text key={subIndex} fw={500} color={data[subItem] === undefined || data[subItem] === "<UNKNOWN>" ? "red" : "green"}>
                         {handleLabel(subItem)},
                       </Text>
                     );
@@ -174,6 +207,45 @@ export default function ShowResult(props) {
       <ScrollArea mt={"sm"} viewportRef={viewport} pr={"sm"} scrollbarSize={8} style={{ height: calculateHeight() }}>
         <div ref={scrollRefs.firstGroup}>{renderGroup(groups.firstGroup, "First Group", "teal")}</div>
         <div ref={scrollRefs.secondGroup}>{renderGroup(groups.secondGroup, "Second Group", "#228be6")}</div>
+      </ScrollArea> */}
+      <ScrollArea h={760} offsetScrollbars>
+      <SimpleGrid cols={{base: 1, md: 2, lg: 3}}>
+  {
+    Object.entries(data).map(([key, item], index) => {
+      return (
+        <Paper withBorder radius={'sm'} p={'sm'} shadow="sm">
+          <Flex direction={'column'} h={'100%'} gap={'md'} justify={'space-between'} key={index}>
+            <Box>
+            <Text fw={700} size="md" tt={'uppercase'} lin>{key}</Text>
+            {item.source_text && <Text fw={400} mt={'md'}>{item.source_text}</Text>}
+            </Box>
+            <Box mt={'sm'} h={item.sources && item.sources.length > 0 ? "" : "100%"}>
+            {
+              item.sources && item.sources.length > 0 ? item.sources.map((sourceItem, sourceIndex) => {
+                return (
+                  <Flex key={sourceIndex} align="center" justify={'space-between'}>
+                    <Flex align={'center'} gap={4}>
+                      <IconBook2 color="green"/>
+                      <Text size="sm" fw={500}>{sourceItem.source}</Text>
+                      {/* <span className="text-gray-500">({sourceItem.page_num} pages)</span> */}
+                    </Flex>
+                    <Flex align={'center'} gap={4}>
+                      <Text fw={500} size="sm" color="gray">Pages:</Text>
+                      <Text size="sm" fw={500}>{sourceItem.page_num}</Text>
+                      </Flex>
+                  </Flex>
+                )
+              }) : (<Flex w={'100%'} h={'100%'} align={'center'} justify={'center'}>
+                <Text className="flex items-center gap-2" fw={500} fs={'italic'} size="28px" color="gray" ><IconReceiptOff color="gray" size={'2.6rem'}/>No Data...</Text>
+              </Flex>)
+            }
+            </Box>
+          </Flex>
+        </Paper>
+      );
+    })
+  }
+      </SimpleGrid>
       </ScrollArea>
     </>
   );
