@@ -1,39 +1,10 @@
 import { ActionIcon, Box, Card, CopyButton, Flex, List, ListItem, Paper, rem, ScrollArea, SimpleGrid, Stack, Text, ThemeIcon, Tooltip } from "@mantine/core";
-import { IconBook2, IconBrandCucumber, IconCheck, IconCircleCheck, IconCircleX, IconCopy, IconListNumbers, IconMoodEmpty, IconNumber, IconPageBreak, IconReceiptOff, IconSortDescendingNumbers } from "@tabler/icons-react";
+import { IconBook2, IconBrandCucumber, IconCheck, IconCircleCheck, IconCircleX, IconCopy, IconListNumbers, IconMoodEmpty, IconNumber, IconPageBreak, IconReceiptOff, IconSortDescendingNumbers, IconTextSize } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 
 export default function ShowResult(props) {
   const viewport = useRef(null);
   const { data } = props;
-//   const data = {
-//     "ascensore": {
-//         source_text: "This document outlines the functional requirements for the Minimum Viable Product (MVP) of Pilbox, a microlearning platform designed to empower chronic illness patients with credible, personalized education.",
-//         sources: [{ page_num: 0, source: '621246_PilboxMVPDetails.pdf' }],
-//         value: "Pilbox"
-//     },
-//     "data_asta": {
-//         source_text: "Data tracking (optional for MVP): Implement basic u.",
-//         sources: [
-//             { page_num: 1, source: "621246_PilboxMVPDetails.pdf" },
-//             { page_num: 1, source: "621246_PilboxMVPDetails.pdf" }
-//         ],
-//         value: "Pilbox"
-//     },
-//     "delegato_1": {
-//         source_text: "This document outlines the functional requirements for the Minimum Viable Product (MVP) of Pilbox, a microlearning platform designed to empower chronic illness patients with credible, personalized education.",
-//         sources: [{ page_num: 1, source: "621246_PilboxMVPDetails.pdf" }],
-//         value: "Pilbox"
-//     },
-//     "delegato_2": {
-//         source_text: "This document outlines the functional requirements for the Minimum Viable Product (MVP) of Pilbox, a microlearning platform designed to empower chronic illness patients with credible, personalized education.",
-//         sources: [{ page_num: 1, source: "621246_PilboxMVPDetails.pdf" }],
-//         value: "Pilbox"
-//     }
-// };
-
-
-
-  console.log("data==========", data)
 
   const scrollRefs = {
     firstGroup: useRef(null),
@@ -220,6 +191,12 @@ export default function ShowResult(props) {
             {item.source_text && <Text fw={400} mt={'md'}>{item.source_text}</Text>}
             </Box>
             <Box mt={'sm'} h={item.sources && item.sources.length > 0 ? "" : "100%"}>
+              {
+                item.sources && item.sources.length > 0 && <Flex justify={'start'} align={'start'} gap={4} mb={'xs'}>
+                <IconTextSize color="green"/>
+                <Text fw={500}>{item.value}</Text>
+              </Flex>
+              }
             {
               item.sources && item.sources.length > 0 ? item.sources.map((sourceItem, sourceIndex) => {
                 return (
@@ -232,13 +209,14 @@ export default function ShowResult(props) {
                     <Flex align={'center'} gap={4}>
                       <Text fw={500} size="sm" color="gray">Pages:</Text>
                       <Text size="sm" fw={500}>{sourceItem.page_num}</Text>
-                      </Flex>
+                    </Flex>
                   </Flex>
                 )
               }) : (<Flex w={'100%'} h={'100%'} align={'center'} justify={'center'}>
                 <Text className="flex items-center gap-2" fw={500} fs={'italic'} size="28px" color="gray" ><IconReceiptOff color="gray" size={'2.6rem'}/>No Data...</Text>
               </Flex>)
             }
+            
             </Box>
           </Flex>
         </Paper>
