@@ -1,5 +1,35 @@
-import { ActionIcon, Box, Card, CopyButton, Flex, List, ListItem, Paper, rem, ScrollArea, SimpleGrid, Stack, Text, ThemeIcon, Tooltip } from "@mantine/core";
-import { IconBook2, IconBrandCucumber, IconCheck, IconCircleCheck, IconCircleX, IconCopy, IconListNumbers, IconMoodEmpty, IconNumber, IconPageBreak, IconReceiptOff, IconSortDescendingNumbers, IconTextSize } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Box,
+  Card,
+  CopyButton,
+  Flex,
+  List,
+  ListItem,
+  Paper,
+  rem,
+  ScrollArea,
+  SimpleGrid,
+  Stack,
+  Text,
+  ThemeIcon,
+  Tooltip,
+} from "@mantine/core";
+import {
+  IconBook2,
+  IconBrandCucumber,
+  IconCheck,
+  IconCircleCheck,
+  IconCircleX,
+  IconCopy,
+  IconListNumbers,
+  IconMoodEmpty,
+  IconNumber,
+  IconPageBreak,
+  IconReceiptOff,
+  IconSortDescendingNumbers,
+  IconTextSize,
+} from "@tabler/icons-react";
 import { useRef, useState } from "react";
 
 export default function ShowResult(props) {
@@ -108,16 +138,31 @@ export default function ShowResult(props) {
               </Text>
               <CopyButton value={data[item]}>
                 {({ copied, copy }) => (
-                  <Tooltip label={copied ? "Copied" : "Copy"} withArrow position="right">
-                    <ActionIcon color={copied ? "teal" : "gray"} variant="subtle" onClick={copy}>
-                      {copied ? <IconCheck style={{ width: rem(16) }} /> : <IconCopy style={{ width: rem(16) }} />}
+                  <Tooltip
+                    label={copied ? "Copied" : "Copy"}
+                    withArrow
+                    position="right"
+                  >
+                    <ActionIcon
+                      color={copied ? "teal" : "gray"}
+                      variant="subtle"
+                      onClick={copy}
+                    >
+                      {copied ? (
+                        <IconCheck style={{ width: rem(16) }} />
+                      ) : (
+                        <IconCopy style={{ width: rem(16) }} />
+                      )}
                     </ActionIcon>
                   </Tooltip>
                 )}
               </CopyButton>
             </Flex>
             <Paper withBorder radius={"sm"} px={"sm"} py={"xs"} mt={4}>
-              <Text color={data[item] ? "" : "gray"} fs={data[item] ? "" : "italic"}>
+              <Text
+                color={data[item] ? "" : "gray"}
+                fs={data[item] ? "" : "italic"}
+              >
                 {data[item] ? data[item] : " None Data"}
               </Text>
             </Paper>
@@ -134,12 +179,13 @@ export default function ShowResult(props) {
   const calculateHeight = () => `calc(100vh - 580px)`;
 
   const handleScrollMove = (group) => {
-    viewport.current?.scrollTo({ top: scrollRefs[group].current.offsetTop, behavior: "smooth" });
+    viewport.current?.scrollTo({
+      top: scrollRefs[group].current.offsetTop,
+      behavior: "smooth",
+    });
   };
 
-  const handleShowMore = () => {
-
-  }
+  const handleShowMore = () => {};
 
   return (
     <>
@@ -180,50 +226,88 @@ export default function ShowResult(props) {
         <div ref={scrollRefs.secondGroup}>{renderGroup(groups.secondGroup, "Second Group", "#228be6")}</div>
       </ScrollArea> */}
       <ScrollArea h={760} offsetScrollbars>
-      <SimpleGrid cols={{base: 1, md: 2, lg: 3}}>
-  {
-    Object.entries(data).map(([key, item], index) => {
-      return (
-        <Paper withBorder radius={'sm'} p={'sm'} shadow="sm">
-          <Flex direction={'column'} h={'100%'} gap={'md'} justify={'space-between'} key={index}>
-            <Box>
-            <Text fw={700} size="md" tt={'uppercase'} lin>{key}</Text>
-            {item.source_text && <Text fw={400} mt={'md'}>{item.source_text}</Text>}
-            </Box>
-            <Box mt={'sm'} h={item.sources && item.sources.length > 0 ? "" : "100%"}>
-              {
-                item.sources && item.sources.length > 0 && <Flex justify={'start'} align={'start'} gap={4} mb={'xs'}>
-                <IconTextSize color="green"/>
-                <Text fw={500}>{item.value}</Text>
-              </Flex>
-              }
-            {
-              item.sources && item.sources.length > 0 ? item.sources.map((sourceItem, sourceIndex) => {
-                return (
-                  <Flex key={sourceIndex} align="center" justify={'space-between'}>
-                    <Flex align={'center'} gap={4}>
-                      <IconBook2 color="green"/>
-                      <Text size="sm" fw={500}>{sourceItem.source}</Text>
-                      {/* <span className="text-gray-500">({sourceItem.page_num} pages)</span> */}
-                    </Flex>
-                    <Flex align={'center'} gap={4}>
-                      <Text fw={500} size="sm" color="gray">Pages:</Text>
-                      <Text size="sm" fw={500}>{sourceItem.page_num}</Text>
-                    </Flex>
-                  </Flex>
-                )
-              }) : (<Flex w={'100%'} h={'100%'} align={'center'} justify={'center'}>
-                <Text className="flex items-center gap-2" fw={500} fs={'italic'} size="28px" color="gray" ><IconReceiptOff color="gray" size={'2.6rem'}/>No Data...</Text>
-              </Flex>)
-            }
-            
-            </Box>
-          </Flex>
-        </Paper>
-      );
-    })
-  }
-      </SimpleGrid>
+        <SimpleGrid cols={{ base: 1, md: 2, lg: 3 }}>
+          {Object.entries(data).map(([key, item], index) => {
+            return (
+              <Paper withBorder radius={"sm"} p={"sm"} shadow="sm">
+                <Flex
+                  direction={"column"}
+                  h={"100%"}
+                  gap={"md"}
+                  justify={"space-between"}
+                  key={index}
+                >
+                  <Box>
+                    <Text fw={700} size="md" tt={"uppercase"} lin>
+                      {key}
+                    </Text>
+                    {item.source_text && (
+                      <Text fw={400} mt={"md"}>
+                        {item.source_text}
+                      </Text>
+                    )}
+                  </Box>
+                  <Box
+                    mt={"sm"}
+                    h={item.sources && item.sources.length > 0 ? "" : "100%"}
+                  >
+                    {item.sources && item.sources.length > 0 && (
+                      <Flex justify={"start"} align={"start"} gap={4} mb={"xs"}>
+                        <IconTextSize color="green" />
+                        <Text fw={500}>{item.value}</Text>
+                      </Flex>
+                    )}
+                    {item.sources && item.sources.length > 0 ? (
+                      item.sources.map((sourceItem, sourceIndex) => {
+                        return (
+                          <Flex
+                            key={sourceIndex}
+                            align="center"
+                            justify={"space-between"}
+                          >
+                            <Flex align={"center"} gap={4}>
+                              <IconBook2 color="green" />
+                              <Text size="sm" fw={500}>
+                                {sourceItem.source}
+                              </Text>
+                              {/* <span className="text-gray-500">({sourceItem.page_num} pages)</span> */}
+                            </Flex>
+                            <Flex align={"center"} gap={4}>
+                              <Text fw={500} size="sm" color="gray">
+                                Pages:
+                              </Text>
+                              <Text size="sm" fw={500}>
+                                {sourceItem.page_num}
+                              </Text>
+                            </Flex>
+                          </Flex>
+                        );
+                      })
+                    ) : (
+                      <Flex
+                        w={"100%"}
+                        h={"100%"}
+                        align={"center"}
+                        justify={"center"}
+                      >
+                        <Text
+                          className="flex items-center gap-2"
+                          fw={500}
+                          fs={"italic"}
+                          size="28px"
+                          color="gray"
+                        >
+                          <IconReceiptOff color="gray" size={"2.6rem"} />
+                          No Data...
+                        </Text>
+                      </Flex>
+                    )}
+                  </Box>
+                </Flex>
+              </Paper>
+            );
+          })}
+        </SimpleGrid>
       </ScrollArea>
     </>
   );

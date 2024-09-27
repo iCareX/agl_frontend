@@ -13,9 +13,9 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (location.pathname === "/" || location.pathname === "") navigate("/pdf_upload");
-  }, [navigate, location.pathname]);
+  // useEffect(() => {
+  //   if (location.pathname === "/" || location.pathname === "") navigate("/pdf_upload");
+  // }, [navigate, location.pathname]);
 
   // useEffect(() => {
   //   if (userToken) {
@@ -37,7 +37,7 @@ function App() {
       >
         <MainHeader />
         <Flex h={"100%"}>
-          <MainSidebar />
+          {/* <MainSidebar /> */}
           <Outlet />
         </Flex>
         {/* <MainFooter /> */}

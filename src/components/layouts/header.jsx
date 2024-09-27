@@ -1,4 +1,15 @@
-import { ActionIcon, Avatar, Box, Drawer, Flex, Menu, NavLink, Text, rem, useMantineColorScheme } from "@mantine/core";
+import {
+  ActionIcon,
+  Avatar,
+  Box,
+  Drawer,
+  Flex,
+  Menu,
+  NavLink,
+  Text,
+  rem,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconLogout, IconMenu2, IconMoon } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -51,15 +62,21 @@ export default function MainHeader() {
     console.log("--");
   };
 
-  useEffect(() => {
-    if (!userToken) {
-      navigate("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!userToken) {
+  //     navigate("/login");
+  //   }
+  // }, []);
 
   return (
     <header className=" border-b-[1px]">
-      <Flex w={"100%"} align={"center"} justify={"space-between"} py={"sm"} px={"md"}>
+      <Flex
+        w={"100%"}
+        align={"center"}
+        justify={"space-between"}
+        py={"sm"}
+        px={"md"}
+      >
         <Flex gap={"sm"} align={"center"}>
           <Box className="sm:hidden block">
             <ActionIcon
@@ -76,7 +93,7 @@ export default function MainHeader() {
           </Box>
           <Flex align={"end"} gap={"xs"}>
             <Text fw={700} size="lg">
-              Agl Studio
+              BioOn Search
             </Text>
             <Text fw={400} size="sm" mb={"3"}>
               by icarex
@@ -86,7 +103,11 @@ export default function MainHeader() {
         <Flex align={"center"} gap={"xl"}>
           <Menu shadow="md" width={240}>
             <Menu.Target>
-              <Flex align={"center"} gap={"sm"} className="hover:cursor-pointer">
+              <Flex
+                align={"center"}
+                gap={"sm"}
+                className="hover:cursor-pointer"
+              >
                 <Text>{userToken.name}</Text>
                 <Avatar src={""} size={"md"} radius={"xl"} />
               </Flex>
@@ -101,11 +122,22 @@ export default function MainHeader() {
                 </Box>
               </Menu.Item>
               <Menu.Divider />
-              <Menu.Item leftSection={<IconMoon style={{ width: rem(14), height: rem(14) }} />} rightSection={<DarkSwitch />}>
+              <Menu.Item
+                leftSection={
+                  <IconMoon style={{ width: rem(14), height: rem(14) }} />
+                }
+                rightSection={<DarkSwitch />}
+              >
                 Dark Mode
               </Menu.Item>
               <Menu.Divider />
-              <Menu.Item color="red" leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />} onClick={handleSignOut}>
+              <Menu.Item
+                color="red"
+                leftSection={
+                  <IconLogout style={{ width: rem(14), height: rem(14) }} />
+                }
+                onClick={handleSignOut}
+              >
                 Log Out
               </Menu.Item>
             </Menu.Dropdown>
@@ -117,7 +149,7 @@ export default function MainHeader() {
         onClose={close}
         title={
           <Text fw={600} size="lg">
-            Agl Studio
+            BioOn Search
           </Text>
         }
         size="350"
@@ -140,8 +172,18 @@ export default function MainHeader() {
                             fontSize: "16px",
                           },
                           root: {
-                            backgroundColor: window.location.href.includes(subItem.link) ? (colorScheme === "light" ? "#F4F4F5" : "#333337") : "",
-                            border: window.location.href.includes(subItem.link) ? (colorScheme === "light" ? "1px solid #E4E4E7" : "") : "",
+                            backgroundColor: window.location.href.includes(
+                              subItem.link
+                            )
+                              ? colorScheme === "light"
+                                ? "#F4F4F5"
+                                : "#333337"
+                              : "",
+                            border: window.location.href.includes(subItem.link)
+                              ? colorScheme === "light"
+                                ? "1px solid #E4E4E7"
+                                : ""
+                              : "",
                             borderRadius: "8px",
                           },
                         }}

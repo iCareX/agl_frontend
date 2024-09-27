@@ -1,4 +1,11 @@
-import { Box, Flex, NavLink, Stack, Text, useMantineColorScheme } from "@mantine/core";
+import {
+  Box,
+  Flex,
+  NavLink,
+  Stack,
+  Text,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +20,10 @@ export default function MainSidebar(props) {
         {
           label: "AGL AI",
           link: "pdf_upload",
+        },
+        {
+          label: "Query",
+          link: "query",
         },
       ],
     },
@@ -40,8 +51,8 @@ export default function MainSidebar(props) {
       <Flex direction={"column"} align={"start"} gap={"md"} mt={"sm"}>
         {navList.map((item, index) => {
           return (
-            <Stack key={index} w={"100%"}>
-              <Text size="sm" fw={700} mb={-10}>
+            <Stack key={index} w={"100%"} gap={4}>
+              <Text size="sm" fw={700}>
                 {item.type}
               </Text>
               {item?.menu.map((subItem, subIndex) => {
@@ -54,8 +65,18 @@ export default function MainSidebar(props) {
                         fontSize: "16px",
                       },
                       root: {
-                        backgroundColor: window.location.href.includes(subItem.link) ? (colorScheme === "light" ? "#F4F4F5" : "#333337") : "",
-                        border: window.location.href.includes(subItem.link) ? (colorScheme === "light" ? "1px solid #E4E4E7" : "") : "",
+                        backgroundColor: window.location.href.includes(
+                          subItem.link
+                        )
+                          ? colorScheme === "light"
+                            ? "#F4F4F5"
+                            : "#333337"
+                          : "",
+                        border: window.location.href.includes(subItem.link)
+                          ? colorScheme === "light"
+                            ? "1px solid #E4E4E7"
+                            : ""
+                          : "",
                         borderRadius: "8px",
                       },
                     }}
