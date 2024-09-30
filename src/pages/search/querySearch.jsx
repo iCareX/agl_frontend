@@ -3,6 +3,7 @@ import {
   Flex,
   List,
   ListItem,
+  Loader,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -13,7 +14,6 @@ import {
 import { IconBook, IconSend, IconSwipe } from "@tabler/icons-react";
 import { useState } from "react";
 import { QuerySearchAPI } from "../../apis/query_searchAPI";
-import { useSetRecoilState } from "recoil";
 
 export default function QuerySearch() {
   const [query, setQuery] = useState("");
@@ -65,6 +65,7 @@ export default function QuerySearch() {
 
   const handleSearch = async (query_data) => {
     setQuery(query_data);
+    setLoading(true);
 
     try {
       const response = await QuerySearchAPI(query_data);
@@ -91,6 +92,7 @@ export default function QuerySearch() {
           },
         ],
       });
+      setLoading(false);
     } catch (error) {
       console.error("Error uploading files:", error);
       setLoading(false);
@@ -106,7 +108,9 @@ export default function QuerySearch() {
               if (e.key === "Enter") handleSearch(e.currentTarget.value);
             }}
             w={600}
-            rightSection={<IconSend size={"1rem"} />}
+            rightSection={
+              loading ? <Loader size={"sm"} /> : <IconSend size={"1rem"} />
+            }
           />
         </Flex>
       ) : (
@@ -118,7 +122,7 @@ export default function QuerySearch() {
                 {query}
               </span>
             </Text>
-            <Text size="md" fw={400} lineClamp={!showmore ? 6 : null}>
+            <Text size="md" fw={400} lineClamp={!showmore ? 6 : null} mt={"sm"}>
               {processPHAProductionText(result.answer)}
             </Text>
             <Flex justify={"end"} mt={"xs"}>
@@ -136,7 +140,7 @@ export default function QuerySearch() {
             <Text size="lg" fw={500} mt={"md"}>
               Sources:
             </Text>
-            <SimpleGrid cols={2} mt={"xs"}>
+            <SimpleGrid cols={{ base: 1, md: 2 }} mt={"xs"}>
               {result.sources &&
                 result.sources.length > 0 &&
                 result.sources.map((item, index) => {
@@ -160,15 +164,21 @@ export default function QuerySearch() {
                           <Flex align={"start"} gap={"xs"}>
                             <Tooltip label="Source Title">
                               <div>
-                                <IconBook color="green" size={"1.3rem"} />
+                                <IconBook
+                                  color="green"
+                                  size={"1.3rem"}
+                                  className="mt-[2px]"
+                                />
                               </div>
                             </Tooltip>
-                            <Text fw={500}>{item.source}</Text>
+                            <Text fw={500} td="underline">
+                              {item.source}
+                            </Text>
                           </Flex>
                           <Flex align={"start"} mt={"sm"} gap={"xs"}>
                             <Tooltip label="Snippets">
                               <div>
-                                <IconSwipe size={"1.3rem"} />
+                                <IconSwipe color="#228be6" size={"1.3rem"} />
                               </div>
                             </Tooltip>
                             <List type="unordered">
