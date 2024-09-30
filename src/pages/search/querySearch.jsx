@@ -20,6 +20,9 @@ export default function QuerySearch() {
   const [result, setResult] = useState({});
   const [loading, setLoading] = useState(false);
   const [showmore, setShowMore] = useState(false);
+  const [showsnippet, setShowSnippet] = useState(false);
+
+  const [selectId, setSelectId] = useState(null);
 
   const processPHAProductionText = (data) => {
     // const cleanedText = data.replace(/\n/g, " ");
@@ -69,29 +72,31 @@ export default function QuerySearch() {
 
     try {
       const response = await QuerySearchAPI(query_data);
-      setResult({
-        answer: `To maximize PHA production, nitrogen levels should be reduced strategically to create conditions that favor PHA accumulation. The process typically involves two phases: an initial phase where high densities of active biomass are produced under nutrient-rich conditions, followed by a second phase where the limitation of a growth-essential nutrient, such as nitrogen, triggers the production of PHAs as secondary metabolites. This sequential approach is similar to the production processes of other bioproducts like penicillin and citric acid, where the desired bioproducts are generated in response to nutrient limitation [2].\n\nIn practical terms, the reduction of nitrogen should be done in a controlled manner to ensure that the microorganisms switch from growth mode to PHA accumulation mode. This can be achieved by monitoring and adjusting the substrate supply, oxygen input, temperature, and pH-value to maintain optimal conditions for PHA production [2]. \n\nFor example, in a study involving the production of P(3HB) by Bacillus megaterium, an indirect pH-stat feeding regime was used to control the substrate concentration, ensuring it remained in an optimum range for PHA production. This approach resulted in a high PHA content of about 70 wt.% after 72 hours of operation [1].\n\nTherefore, the reduction of nitrogen levels should be done gradually and monitored closely to ensure that the microorganisms are in the optimal state for PHA accumulation. This typically involves transitioning from a nutrient-rich environment to one that is nitrogen-limited, while maintaining other cultivation conditions that support PHA synthesis.\n\n`,
-        sources: [
-          {
-            source:
-              "Paper BProcess/Processo produttivo/Advances in Polyhydroxyalkanoate (PHA) Production vol 3.pdf",
-            text_snippets: [
-              `Conversion of volatile fatty acids (VFAs), obtained by anaerobic transformation of organic residues, by mixed microbial cultures (MMCs) to PHA is another emerging tool to efﬁciently produce PHA from various waste streams [18].`,
-              `In this setup, a crossflow microﬁltration membrane module was used to recycle active cell biomass (retentate fraction) into the bioreactor... An indirect pH-stat feeding regime... resulted in a high PHA content of about 70 wt.% after 72 h of operation using this setup.`,
-            ],
-            pages: [3],
-          },
-          {
-            source:
-              "Paper BProcess/Materiale PHA/bioengineering PHA 2023 Anindya.pdf",
-            text_snippets: [
-              `PHAs are produced by microorganisms in vivo, as an energy source that the organism itself utilizes to survive in nature when it cannot obtain an external carbon source [60].`,
-              `On an industrial scale, manufacturers use the same natural microorganisms to produce PHAs... PHA production can be compared to plants producing cellulose when they grow.`,
-            ],
-            pages: [9, 5],
-          },
-        ],
-      });
+      console.log("=========", response);
+      // setResult({
+      //   answer: `To maximize PHA production, nitrogen levels should be reduced strategically to create conditions that favor PHA accumulation. The process typically involves two phases: an initial phase where high densities of active biomass are produced under nutrient-rich conditions, followed by a second phase where the limitation of a growth-essential nutrient, such as nitrogen, triggers the production of PHAs as secondary metabolites. This sequential approach is similar to the production processes of other bioproducts like penicillin and citric acid, where the desired bioproducts are generated in response to nutrient limitation [2].\n\nIn practical terms, the reduction of nitrogen should be done in a controlled manner to ensure that the microorganisms switch from growth mode to PHA accumulation mode. This can be achieved by monitoring and adjusting the substrate supply, oxygen input, temperature, and pH-value to maintain optimal conditions for PHA production [2]. \n\nFor example, in a study involving the production of P(3HB) by Bacillus megaterium, an indirect pH-stat feeding regime was used to control the substrate concentration, ensuring it remained in an optimum range for PHA production. This approach resulted in a high PHA content of about 70 wt.% after 72 hours of operation [1].\n\nTherefore, the reduction of nitrogen levels should be done gradually and monitored closely to ensure that the microorganisms are in the optimal state for PHA accumulation. This typically involves transitioning from a nutrient-rich environment to one that is nitrogen-limited, while maintaining other cultivation conditions that support PHA synthesis.\n\n`,
+      //   sources: [
+      //     {
+      //       source:
+      //         "Paper BProcess/Processo produttivo/Advances in Polyhydroxyalkanoate (PHA) Production vol 3.pdf",
+      //       text_snippets: [
+      //         `Conversion of volatile fatty acids (VFAs), obtained by anaerobic transformation of organic residues, by mixed microbial cultures (MMCs) to PHA is another emerging tool to efﬁciently produce PHA from various waste streams [18].`,
+      //         `In this setup, a crossflow microﬁltration membrane module was used to recycle active cell biomass (retentate fraction) into the bioreactor... An indirect pH-stat feeding regime... resulted in a high PHA content of about 70 wt.% after 72 h of operation using this setup.`,
+      //       ],
+      //       pages: [3],
+      //     },
+      //     {
+      //       source:
+      //         "Paper BProcess/Materiale PHA/bioengineering PHA 2023 Anindya.pdf",
+      //       text_snippets: [
+      //         `PHAs are produced by microorganisms in vivo, as an energy source that the organism itself utilizes to survive in nature when it cannot obtain an external carbon source [60].`,
+      //         `On an industrial scale, manufacturers use the same natural microorganisms to produce PHAs... PHA production can be compared to plants producing cellulose when they grow.`,
+      //       ],
+      //       pages: [9, 5],
+      //     },
+      //   ],
+      // });
+      if (response) setResult(response);
       setLoading(false);
     } catch (error) {
       console.error("Error uploading files:", error);
@@ -192,9 +197,52 @@ export default function QuerySearch() {
                                       //   mt={"xs"}
                                       //   key={snippets_index}
                                       // >
-                                      <ListItem key={snippets_index} mb={"xs"}>
-                                        {snippets_item}
-                                      </ListItem>
+                                      <Box>
+                                        <Text
+                                          size="md"
+                                          fw={400}
+                                          lineClamp={
+                                            selectId ===
+                                              snippets_index + `${index}` &&
+                                            showsnippet
+                                              ? null
+                                              : 6
+                                          }
+                                        >
+                                          {processPHAProductionText(
+                                            snippets_item
+                                          )}
+                                        </Text>
+                                        <Flex justify={"end"} mt={"xs"}>
+                                          <Text
+                                            size="sm"
+                                            fw={500}
+                                            fs={"italic"}
+                                            color="blue"
+                                            onClick={() => {
+                                              setSelectId(
+                                                snippets_index + `${index}`
+                                              );
+                                              setShowSnippet(
+                                                selectId ===
+                                                  snippets_index + `${index}`
+                                                  ? !showsnippet
+                                                  : true
+                                              );
+                                            }}
+                                            className="hover:cursor-pointer"
+                                          >
+                                            {selectId ===
+                                              snippets_index + `${index}` &&
+                                            showsnippet
+                                              ? "Show less"
+                                              : "Show more"}
+                                          </Text>
+                                        </Flex>
+                                      </Box>
+                                      // <ListItem key={snippets_index} mb={"xs"}>
+                                      //   {snippets_item}
+                                      // </ListItem>
                                       // </Text>
                                     );
                                   }
